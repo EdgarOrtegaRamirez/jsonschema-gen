@@ -232,7 +232,7 @@ func (g *SchemaGenerator) typeToSchema(t reflect.Type, val reflect.Value) (*JSON
 			// Try to infer structure
 			schema.Properties = make(map[string]*JSONSchema)
 			iter := val.MapRange()
-			if iter.Next() {
+			for iter.Next() {
 				key := iter.Key()
 				value := iter.Value()
 				propName := fmt.Sprintf("%v", key.Interface())
@@ -243,6 +243,16 @@ func (g *SchemaGenerator) typeToSchema(t reflect.Type, val reflect.Value) (*JSON
 				}
 			}
 		}
+	case reflect.Interface:
+		// Unwrap the interface to get the concrete type inside
+		// e.g., map[string]interface{} values are interfaces
+		if val.IsValid() {
+			elem := val.Elem()
+			if elem.IsValid() {
+				return g.typeToSchema(elem.Type(), elem)
+			}
+		}
+		schema.Type = "object"
 	case reflect.Struct:
 		// Handle named structs
 		if t.Name() != "" && t.PkgPath() != "" {
@@ -465,7 +475,7 @@ func cmdGenerate() {
 	}
 
 	// Read from stdin
-	data, err := os.ReadFile("-")
+	data, err := os.ReadFile("/dev/stdin")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: no input provided. Pipe JSON via stdin\n")
 		os.Exit(1)
@@ -588,7 +598,7 @@ func cmdFromValue() {
 	}
 
 	// Read value from stdin
-	data, err := os.ReadFile("-")
+	data, err := os.ReadFile("/dev/stdin")
 	if err != nil {
 		data = []byte("{}")
 	}
