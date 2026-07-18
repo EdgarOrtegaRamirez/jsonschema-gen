@@ -17,29 +17,29 @@ type SchemaGenerator struct {
 
 // JSONSchema represents a JSON Schema node
 type JSONSchema struct {
-	Type                  string             `json:"type,omitempty"`
-	Title                 string             `json:"title,omitempty"`
-	Description           string             `json:"description,omitempty"`
-	Properties            map[string]*JSONSchema `json:"properties,omitempty"`
-	Required              []string           `json:"required,omitempty"`
-	AdditionalProperties  *bool              `json:"additionalProperties,omitempty"`
-	Items                 *JSONSchema        `json:"items,omitempty"`
-	Enum                  []interface{}      `json:"enum,omitempty"`
-	Default               interface{}        `json:"default,omitempty"`
-	MinLength             *int               `json:"minLength,omitempty"`
-	MaxLength             *int               `json:"maxLength,omitempty"`
-	Minimum               *float64           `json:"minimum,omitempty"`
-	Maximum               *float64           `json:"maximum,omitempty"`
-	Format                string             `json:"format,omitempty"`
-	Pattern               string             `json:"pattern,omitempty"`
-	MinItems              *int               `json:"minItems,omitempty"`
-	MaxItems              *int               `json:"maxItems,omitempty"`
-	UniqueItems           bool               `json:"uniqueItems,omitempty"`
-	Const                 interface{}        `json:"const,omitempty"`
-	AllOf                 []*JSONSchema      `json:"allOf,omitempty"`
-	OneOf                 []*JSONSchema      `json:"oneOf,omitempty"`
-	AnyOf                 []*JSONSchema      `json:"anyOf,omitempty"`
-	Ref                  string             `json:"$ref,omitempty"`
+	Type                 string                 `json:"type,omitempty"`
+	Title                string                 `json:"title,omitempty"`
+	Description          string                 `json:"description,omitempty"`
+	Properties           map[string]*JSONSchema `json:"properties,omitempty"`
+	Required             []string               `json:"required,omitempty"`
+	AdditionalProperties *bool                  `json:"additionalProperties,omitempty"`
+	Items                *JSONSchema            `json:"items,omitempty"`
+	Enum                 []interface{}          `json:"enum,omitempty"`
+	Default              interface{}            `json:"default,omitempty"`
+	MinLength            *int                   `json:"minLength,omitempty"`
+	MaxLength            *int                   `json:"maxLength,omitempty"`
+	Minimum              *float64               `json:"minimum,omitempty"`
+	Maximum              *float64               `json:"maximum,omitempty"`
+	Format               string                 `json:"format,omitempty"`
+	Pattern              string                 `json:"pattern,omitempty"`
+	MinItems             *int                   `json:"minItems,omitempty"`
+	MaxItems             *int                   `json:"maxItems,omitempty"`
+	UniqueItems          bool                   `json:"uniqueItems,omitempty"`
+	Const                interface{}            `json:"const,omitempty"`
+	AllOf                []*JSONSchema          `json:"allOf,omitempty"`
+	OneOf                []*JSONSchema          `json:"oneOf,omitempty"`
+	AnyOf                []*JSONSchema          `json:"anyOf,omitempty"`
+	Ref                  string                 `json:"$ref,omitempty"`
 	Defs                 map[string]*JSONSchema `json:"$defs,omitempty"`
 }
 
@@ -287,7 +287,7 @@ func (g *SchemaGenerator) typeToSchema(t reflect.Type, val reflect.Value) (*JSON
 // structToSchema converts a Go struct to a JSON Schema
 func (g *SchemaGenerator) structToSchema(t reflect.Type, val reflect.Value) *JSONSchema {
 	schema := &JSONSchema{
-		Type: "object",
+		Type:       "object",
 		Properties: make(map[string]*JSONSchema),
 	}
 
